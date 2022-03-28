@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.0.6
   get_storage:
   get:
+  community_material_icon: ^5.9.55
 
 dev_dependencies:
   flutter_test:
