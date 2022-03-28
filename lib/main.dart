@@ -1,10 +1,15 @@
+import 'package:dreamlendar/services/theme_sevices.dart';
 import 'package:dreamlendar/theme.dart';
 import 'package:dreamlendar/welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await GetStorage.init();
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -13,11 +18,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       title: 'Flutter Demo',
      debugShowCheckedModeBanner: false,
       theme: lightThemeData(context),
       darkTheme: darkThemeData(context),
+      themeMode: ThemeService().theme,
       // themeMode: ThemeMode.light,
       // themeMode: ThemeMode.system, // By default themeMode is ThemeMode.system
       home: WelcomeScreen(),
@@ -25,59 +31,3 @@ class MyApp extends StatelessWidget {
   }
 }
 
-// class MyApp extends StatefulWidget {
-//   const MyApp({ Key? key }) : super(key: key);
-
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
-
-// class _MyAppState extends State<MyApp> {
-
-//   int thememode = 1;
-
-//   @override
-//   void initState() {
-//     // TODO: implement initState
-//     super.initState();
-//   }
-//   starting()async{
-//     SharedPreferences pref = await SharedPreferences.getInstance();
-//     if(pref.getInt("thememode")!=null ){
-//       thememode = pref.getInt("thememode")!;
-//     }else{
-//       pref.setInt("thememode", thememode );
-//     }
-//     setState(() {
-
-//     });
-
-//   }
-//   toggletheme()async{
-//     SharedPreferences pref = await SharedPreferences.getInstance();
-//     if(pref.getInt("thememode")==1 ){
-//       pref.setInt("thememode", 0 );
-//       thememode = 0;
-//     }else{
-//       pref.setInt("thememode", 1 );
-//       thememode = 1;
-//     }
-//     setState(() {
-
-//     });
-//   }
-//
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Flutter Demo',
-//      debugShowCheckedModeBanner: false,
-//       theme: lightThemeData(context),
-//       darkTheme: darkThemeData(context),
-//       // themeMode: ThemeMode.system, // By default themeMode is ThemeMode.system
-//       themeMode: thememode == 1 ? ThemeMode.dark : ThemeMode.light,
-//       home: WelcomeScreen(toggleCall: toggletheme,),
-//     );
-//   }
-// }
