@@ -13,8 +13,13 @@ Nhong Upload :   Tue 29 Mar
 - test/widget_test.dart
 - pubspec.yaml
 
-Nhong Updated :   Sun 10 Apr
+Nhong Updated :   Sun 10 Apr Morning
 - assets/images/bg2.png
 - [Nhong] lib/welcome/welcome_screen.dart
 - [Arm] lib/aMonth/a_month_screen.dart (almost finish - Waiting.. Earth, Tour, and Foal)
 - pubspec.yaml
+
+Nhong Updated :   Sun 10 Apr Evening
+- [Nhong] lib/welcome/welcome_screen.dart
+- [Arm] lib/aMonth/a_month_screen.dart (almost finish - Waiting.. Earth, Tour, and Foal)
+- [Fight] lib/display_task/DisplayTask.dart (Tour Earth Foal)
