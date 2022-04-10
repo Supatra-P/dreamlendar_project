@@ -1,11 +1,15 @@
 // ignore_for_file: deprecated_member_use
 
+import 'dart:io';
+
 import 'package:dreamlendar/aMonth/a_month_screen.dart';
-import 'package:dreamlendar/animate_slide_up.dart';
 import 'package:dreamlendar/constants.dart';
 import 'package:dreamlendar/services/theme_sevices.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -17,16 +21,44 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   bool click = true;
 
+  File? image;
+  Future pickImage(ImageSource source) async {
+    try {
+      final image = await ImagePicker().pickImage(source: source);
+      if (image == null) return;
+
+      // final imageTemporary = File(image.path);
+      // setState(() => this._image = imageTemporary);
+      final imagePermanent = await saveImagePermanently(image.path);
+      setState(() => this.image = imagePermanent);
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  Future<File> saveImagePermanently(String imagePath) async {
+    final directory = await getApplicationDocumentsDirectory();
+    final name = basename(imagePath);
+    final image = File('${directory.path}/$name');
+
+    return File(imagePath).copy(image.path);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         // Background
         decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/bg1.jpg"),
-            fit: BoxFit.cover,
-          ),
+          image: image != null
+              ? DecorationImage(
+                  image: FileImage(image!),
+                  fit: BoxFit.cover,
+                )
+              : DecorationImage(
+                  image: AssetImage("assets/images/bg1.jpg"),
+                  fit: BoxFit.cover,
+                ),
         ),
         child: Scaffold(
           // app navigation bar
@@ -71,15 +103,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   children: [
                     Container(
                       width: 36,
-                      child: IconButton(
-                        icon: Icon(
+                      child: buildButton(
+                        icons: Icon(
                           Icons.crop_original_rounded,
                           color: Theme.of(context)
                               .iconTheme
                               .color
                               ?.withOpacity(0.75),
                         ),
-                        onPressed: () {},
+                        onClicked: () => pickImage(ImageSource.gallery),
                       ),
                     ),
                     IconButton(
@@ -148,7 +180,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               Spacer(
                 flex: 2,
               ),
-              // slide up to open calendar button
+              // click to open calendar button
               IconButton(
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.zero,
@@ -202,4 +234,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       ),
     );
   }
+
+  Widget buildButton({
+    required Icon icons,
+    required VoidCallback onClicked,
+  }) =>
+      IconButton(
+        onPressed: onClicked,
+        icon: icons,
+      );
 }
