@@ -28,7 +28,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       if (image == null) return;
 
       // final imageTemporary = File(image.path);
-      // setState(() => this._image = imageTemporary);
+      // setState(() => this.image = imageTemporary);
       final imagePermanent = await saveImagePermanently(image.path);
       setState(() => this.image = imagePermanent);
     } on PlatformException catch (e) {
@@ -181,17 +181,32 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 flex: 2,
               ),
               // click to open calendar button
-              IconButton(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.zero,
-                icon: Icon(
-                  Icons.login_rounded,
-                  color: Theme.of(context).iconTheme.color?.withOpacity(0.75),
-                  size: 36,
+              Container(
+                // height: 40,
+                // width: 40,
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                      colors: [
+                        Color.fromARGB(75, 255, 255, 255),
+                        Color.fromARGB(11, 255, 255, 255)
+                      ],
+                      begin: FractionalOffset.topLeft,
+                      end: FractionalOffset.bottomRight),
+                  borderRadius: BorderRadius.circular(40),
                 ),
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => A_MonthsScreen()),
+                padding: EdgeInsets.all(12),
+                child: IconButton(
+                  alignment: Alignment.centerLeft,
+                  padding: EdgeInsets.zero,
+                  icon: Icon(
+                    Icons.login_rounded,
+                    color: Theme.of(context).iconTheme.color?.withOpacity(.85),
+                    size: 36,
+                  ),
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => A_MonthsScreen()),
+                  ),
                 ),
               ),
               // AnimateSideUp(),  not yet use
@@ -219,7 +234,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               ?.withOpacity(0.75),
                           size: 32,
                         ),
-                        onPressed: () {},
+                        onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => WelcomeScreen(),
+                          ),
+                        ),
                       ),
                     ),
                   ),

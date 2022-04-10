@@ -25,11 +25,21 @@ class _DisplayTaskState extends State<DisplayTask> {
         ),
         child: Scaffold(
           appBar: AppBar(
-            title: Text("ACTIVITY DETAILS"),
-            centerTitle: true,
+            title: Text(
+              "ACTIVITY DETAILS",
+              style: TextStyle(
+                color: Theme.of(context)
+                    .textTheme
+                    .bodyText1
+                    ?.color
+                    ?.withOpacity(1),
+                fontSize: 18,
+              ),
+            ),
+            // centerTitle: true,
             leading: Padding(
               padding: const EdgeInsets.only(
-                left: 16.0,
+                left: 20.0,
               ),
               child: IconButton(
                 icon: Icon(Icons.arrow_back_ios),
@@ -51,7 +61,7 @@ class _DisplayTaskState extends State<DisplayTask> {
               //   },
               // ),
               Container(
-                padding: EdgeInsets.only(right: 24.0, top: 12.0, bottom: 12.0),
+                padding: EdgeInsets.only(right: 32.0, top: 14.0, bottom: 15.0),
                 child: TextButton(
                   // height: 24,
                   // padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0,),
@@ -63,13 +73,18 @@ class _DisplayTaskState extends State<DisplayTask> {
                   child: Text(
                     'EDIT',
                     style: TextStyle(
-                      color: kBlackColor,
-                      fontSize: 12,
+                      color: Theme.of(context)
+                          .textTheme
+                          .headline1
+                          ?.color
+                          ?.withOpacity(1),
+                      fontSize: 10,
                     ),
                   ),
                   style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(kWhiteColor.withOpacity(.54)),
+                    backgroundColor: MaterialStateProperty.all(
+                      Theme.of(context).iconTheme.color?.withOpacity(0.54),
+                    ),
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7),
@@ -111,7 +126,7 @@ class _DisplayTaskState extends State<DisplayTask> {
                   bottom: 32,
                 ),
                 decoration: BoxDecoration(
-                  color: Colors.white54,
+                  color: Theme.of(context).iconTheme.color?.withOpacity(0.54),
                   borderRadius: BorderRadius.all(Radius.circular(7)),
                 ),
                 // child: Text(
@@ -359,7 +374,7 @@ class _DisplayTaskState extends State<DisplayTask> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(7),
                 ),
-                color: kWhiteColor.withOpacity(.54),
+                color: Theme.of(context).iconTheme.color?.withOpacity(0.54),
                 onPressed: () {},
                 child: Text(
                   'DELETE THIS ACTIVITY',
