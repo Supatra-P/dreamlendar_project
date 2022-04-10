@@ -39,6 +39,10 @@ dependencies:
   get_storage:
   get:
   community_material_icon: ^5.9.55
+  scrollable_clean_calendar: ^1.1.0
+
+  image_picker: ^0.8.4+11
+  path_provider: ^2.0.9
 
 dev_dependencies:
   flutter_test:
