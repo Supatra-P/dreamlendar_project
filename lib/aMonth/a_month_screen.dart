@@ -1,6 +1,7 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:dreamlendar/constants.dart';
+import 'package:dreamlendar/display_task/DisplayTask.dart';
 import 'package:dreamlendar/welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/routes/default_transitions.dart';
@@ -16,19 +17,6 @@ class A_MonthsScreen extends StatefulWidget {
 }
 
 class _A_MonthsScreenState extends State<A_MonthsScreen> {
-  final calendarController = CleanCalendarController(
-    minDate: DateTime.now(),
-    maxDate: DateTime.now().add(const Duration(days: 365)),
-    // onRangeSelected: (firstDate, secondDate) {},
-    rangeMode: false,
-    onDayTapped: (date) {},
-    // readOnly: false,
-    // onPreviousMinDateTapped: null,
-    // onAfterMaxDateTapped: null,
-    weekdayStart: DateTime.sunday,
-    initialDateSelected: DateTime.now(),
-    // endDateSelected: DateTime(2022, 3, 15),
-  );
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +56,10 @@ class _A_MonthsScreenState extends State<A_MonthsScreen> {
                             .color
                             ?.withOpacity(0.75),
                       ),
-                      onPressed: () {},
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => DisplayTask()),
+                      ),
                     ),
 
                     // Container(
@@ -100,7 +91,7 @@ class _A_MonthsScreenState extends State<A_MonthsScreen> {
           body: Container(
             // Background
             padding: EdgeInsets.only(
-                left: 25.0, top: 64.0, right: 25.0, bottom: 90.0),
+                left: 25.0, top: 28.0, right: 25.0, bottom: 48.0),
             margin: EdgeInsets.only(
                 left: 32.0, top: 16.0, right: 32.0, bottom: 8.0),
             decoration: BoxDecoration(
@@ -108,7 +99,22 @@ class _A_MonthsScreenState extends State<A_MonthsScreen> {
               borderRadius: BorderRadius.all(Radius.circular(7)),
             ),
             child: ScrollableCleanCalendar(
-              calendarController: calendarController,
+              calendarController: CleanCalendarController(
+                minDate: DateTime.now(),
+                maxDate: DateTime.now().add(const Duration(days: 365)),
+                // onRangeSelected: (firstDate, secondDate) {},
+                rangeMode: false,
+                onDayTapped: (date) => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => WelcomeScreen()),
+                ),
+                // readOnly: false,
+                // onPreviousMinDateTapped: null,
+                // onAfterMaxDateTapped: null,
+                weekdayStart: DateTime.sunday,
+                initialDateSelected: DateTime.now(),
+                // endDateSelected: DateTime(2022, 3, 15),
+              ),
               layout: Layout.BEAUTY,
               monthTextAlign: TextAlign.left,
               monthTextStyle: TextStyle(
@@ -140,7 +146,10 @@ class _A_MonthsScreenState extends State<A_MonthsScreen> {
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 32.0, top: 12.0,),
+                      padding: const EdgeInsets.only(
+                        left: 32.0,
+                        top: 12.0,
+                      ),
                       child: Text(
                         "TO DO",
                         style: TextStyle(
