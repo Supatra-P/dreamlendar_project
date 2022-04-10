@@ -16,5 +16,5 @@ Nhong Upload :   Tue 29 Mar
 Nhong Updated :   Sun 10 Apr
 - assets/images/bg2.png
 - [Nhong] lib/welcome/welcome_screen.dart
-- [Arm] lib/aMonth/a_month_screen.dart (almost finish - Waiting.. Earth and Foal)
+- [Arm] lib/aMonth/a_month_screen.dart (almost finish - Waiting.. Earth, Tour, and Foal)
 - pubspec.yaml
