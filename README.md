@@ -1,5 +1,14 @@
 # Dreamlendar Project
 
+Dreamlendar is a calendar mobile application that can add tasks or to-do lists to your calendar. The application can also switch between dark and light mode.
+
+### Tech stack
+<a href="https://www.figma.com"><img src="https://img.shields.io/badge/Figma-F24E1E?style=for-the-badge&logo=figma&logoColor=white" /></a>
+<a href="https://flutter.dev/"><img src="https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white" /></a>
+<a href="https://dart.dev"><img src="https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white" /></a>
+<a href="https://firebase.google.com/"><img src="https://img.shields.io/badge/Google_Cloud-4285F4?style=for-the-badge&logo=google-cloud&logoColor=white" /></a>
+
+### Features preview
 ![11](https://user-images.githubusercontent.com/78303835/209338735-f7177685-fcb1-4ec3-bc23-723fb1336b90.png)
 
 ![12](https://user-images.githubusercontent.com/78303835/209338748-792bd1e3-5ba7-488f-b2cd-ce01f3741211.png)
