@@ -3,10 +3,16 @@
 import 'dart:io';
 
 import 'package:dreamlendar/aMonth/a_month_screen.dart';
+import 'package:dreamlendar/add_task/EventList.dart';
+import 'package:dreamlendar/add_task/addEvent.dart';
 import 'package:dreamlendar/constants.dart';
+import 'package:dreamlendar/controllers/task_controller.dart';
+import 'package:dreamlendar/display_task/DisplayTask.dart';
+import 'package:dreamlendar/models/task.dart';
 import 'package:dreamlendar/services/theme_sevices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
@@ -19,6 +25,8 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  final TaskController _taskController = Get.put(TaskController());
+
   bool click = true;
 
   File? image;
@@ -55,7 +63,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   image: FileImage(image!),
                   fit: BoxFit.cover,
                 )
-              : DecorationImage(
+              : const DecorationImage(
                   image: AssetImage("assets/images/bg1.jpg"),
                   fit: BoxFit.cover,
                 ),
@@ -70,10 +78,20 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   width: 32,
                   child: IconButton(
                     icon: Icon(
-                      Icons.calendar_month,
+                      Icons.checklist_rounded,
+                      color:
+                          Theme.of(context).iconTheme.color?.withOpacity(0.75),
+                      size: 28,
                     ),
-                    color: Theme.of(context).iconTheme.color?.withOpacity(0.75),
-                    onPressed: () {},
+                    onPressed: () {
+                      _taskController.getTasks();
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => EventList(),
+                        ),
+                      );
+                    },
                   ),
                 ),
                 Padding(
@@ -122,7 +140,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                             .color
                             ?.withOpacity(0.75),
                       ),
-                      onPressed: () {},
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => addEventBar(),
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -134,6 +157,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
           // Welcome to Dreamlendar
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Spacer(
                 flex: 3,
@@ -152,7 +176,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
 
               Text(
-                "to",
+                "to\nDREAMLENDAR",
                 style: TextStyle(
                   color: Theme.of(context)
                       .textTheme
@@ -162,19 +186,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-
-              Text(
-                "DREAMLENDAR",
-                style: TextStyle(
-                  color: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      ?.color
-                      ?.withOpacity(1),
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
+                textAlign: TextAlign.center,
               ),
 
               Spacer(
@@ -182,8 +194,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               ),
               // click to open calendar button
               Container(
-                // height: 40,
-                // width: 40,
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
                       colors: [
@@ -196,10 +206,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ),
                 padding: EdgeInsets.all(12),
                 child: IconButton(
-                  alignment: Alignment.centerLeft,
                   padding: EdgeInsets.zero,
                   icon: Icon(
-                    Icons.login_rounded,
+                    Icons.arrow_forward_ios_rounded,
                     color: Theme.of(context).iconTheme.color?.withOpacity(.85),
                     size: 36,
                   ),
@@ -209,7 +218,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   ),
                 ),
               ),
-              // AnimateSideUp(),  not yet use
 
               Spacer(
                 flex: 1,
@@ -217,36 +225,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               // checklist button
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: kDefaultPadding,
-                      vertical: kDefaultPadding,
-                    ),
-                    child: SizedBox(
-                      child: IconButton(
-                        alignment: Alignment.centerRight,
-                        icon: Icon(
-                          Icons.checklist_rounded,
-                          color: Theme.of(context)
-                              .iconTheme
-                              .color
-                              ?.withOpacity(0.75),
-                          size: 32,
-                        ),
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WelcomeScreen(),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+                children: [],
               ),
               Spacer(
-                flex: 1,
+                flex: 2,
               ),
             ],
           ),

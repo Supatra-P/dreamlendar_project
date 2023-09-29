@@ -1,17 +1,27 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:dreamlendar/aMonth/a_month_screen.dart';
+import 'package:dreamlendar/add_task/EventList.dart';
 import 'package:dreamlendar/constants.dart';
+import 'package:dreamlendar/welcome/welcome_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:get/get.dart';
+import 'package:path/path.dart';
+import '../models/task.dart';
+import 'package:dreamlendar/controllers/task_controller.dart';
 
 class DisplayTask extends StatefulWidget {
-  const DisplayTask({Key? key}) : super(key: key);
+  final Task? task;
+  DisplayTask(this.task);
 
   @override
   State<DisplayTask> createState() => _DisplayTaskState();
 }
 
 class _DisplayTaskState extends State<DisplayTask> {
+  final _taskController = Get.put(TaskController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,7 +29,7 @@ class _DisplayTaskState extends State<DisplayTask> {
         // Background
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bg1.jpg"),
+            image: AssetImage("assets/images/bg2.png"),
             fit: BoxFit.cover,
           ),
         ),
@@ -36,7 +46,7 @@ class _DisplayTaskState extends State<DisplayTask> {
                 fontSize: 18,
               ),
             ),
-            // centerTitle: true,
+            centerTitle: true,
             leading: Padding(
               padding: const EdgeInsets.only(
                 left: 20.0,
@@ -46,73 +56,10 @@ class _DisplayTaskState extends State<DisplayTask> {
                 color: Theme.of(context).iconTheme.color?.withOpacity(0.75),
                 onPressed: () => Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => A_MonthsScreen()),
+                  MaterialPageRoute(builder: (context) => EventList()),
                 ),
               ),
             ),
-            actions: [
-              // TextButton(
-              //   child: Text("Edit"),
-              //   style: TextButton.styleFrom(
-              //     primary: kBlackColor
-              //   ),
-              //   onPressed: (){
-
-              //   },
-              // ),
-              Container(
-                padding: EdgeInsets.only(right: 32.0, top: 14.0, bottom: 15.0),
-                child: TextButton(
-                  // height: 24,
-                  // padding: EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0,),
-                  // shape: RoundedRectangleBorder(
-                  //   borderRadius: BorderRadius.circular(7),
-                  // ),
-                  // color: kWhiteColor.withOpacity(.54),
-                  onPressed: () => A_MonthsScreen(),
-                  child: Text(
-                    'EDIT',
-                    style: TextStyle(
-                      color: Theme.of(context)
-                          .textTheme
-                          .headline1
-                          ?.color
-                          ?.withOpacity(1),
-                      fontSize: 10,
-                    ),
-                  ),
-                  style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(
-                      Theme.of(context).iconTheme.color?.withOpacity(0.54),
-                    ),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              //     TextButton(
-              //     child: Row(
-              //       children: [
-              //         Container(
-              //           decoration: BoxDecoration(
-              //       color: Colors.white54,
-              //       borderRadius: BorderRadius.all(Radius.circular(7)),
-              // ),
-              //           width: 30,
-              //         ),
-              //         TextButton(
-              //             child: Text("Edit"),
-              //             onPressed: () {
-              //              //
-              //             }),
-              //       ],
-              //     ),
-              //     onPressed: (){},
-              //   ),
-            ],
             backgroundColor: kPrimaryColor.withAlpha(0),
           ),
           body: ListView(children: [
@@ -129,14 +76,11 @@ class _DisplayTaskState extends State<DisplayTask> {
                   color: Theme.of(context).iconTheme.color?.withOpacity(0.54),
                   borderRadius: BorderRadius.all(Radius.circular(7)),
                 ),
-                // child: Text(
-                //   "SF231"
-                // ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "SF231 Data Structures and Algorithms",
+                      widget.task?.title ?? "",
                       style: TextStyle(
                         color: Theme.of(context)
                             .textTheme
@@ -150,7 +94,7 @@ class _DisplayTaskState extends State<DisplayTask> {
                       height: 24,
                     ),
                     Text(
-                      "Wednesday, 12 Jan 2022",
+                      widget.task?.startDate ?? "",
                       style: TextStyle(
                         color: Theme.of(context)
                             .textTheme
@@ -164,7 +108,7 @@ class _DisplayTaskState extends State<DisplayTask> {
                       height: 6,
                     ),
                     Text(
-                      "01.30 pm",
+                      widget.task?.startTime ?? "",
                       style: TextStyle(
                         color: Theme.of(context)
                             .textTheme
@@ -178,11 +122,25 @@ class _DisplayTaskState extends State<DisplayTask> {
                       height: 30,
                       child: Container(
                         width: 1.0,
-                        color: kPrimaryColor, // <<<<---------
+                        color: _getBGClr(widget.task?.color ?? 0),
                       ),
                     ),
                     Text(
-                      "01.30 pm",
+                      widget.task?.endDate ?? "",
+                      style: TextStyle(
+                        color: Theme.of(context)
+                            .textTheme
+                            .headline1
+                            ?.color
+                            ?.withOpacity(1),
+                        fontSize: 12,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    Text(
+                      widget.task?.endTime ?? "",
                       style: TextStyle(
                         color: Theme.of(context)
                             .textTheme
@@ -212,7 +170,7 @@ class _DisplayTaskState extends State<DisplayTask> {
                           textAlign: TextAlign.right,
                         ),
                         Text(
-                          "Every week",
+                          widget.task?.repeat ?? "",
                           style: TextStyle(
                             color: Theme.of(context)
                                 .textTheme
@@ -246,41 +204,7 @@ class _DisplayTaskState extends State<DisplayTask> {
                         ),
                         // SizedBox(height: 16,),
                         Text(
-                          "15 minutes before",
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                ?.color
-                                ?.withOpacity(1),
-                            fontSize: 12,
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    //
-                    Row(
-                      mainAxisSize: MainAxisSize.max,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "Second alert",
-                          style: TextStyle(
-                            color: Theme.of(context)
-                                .textTheme
-                                .headline1
-                                ?.color
-                                ?.withOpacity(1),
-                            fontSize: 12,
-                          ),
-                          textAlign: TextAlign.right,
-                        ),
-                        Text(
-                          "1 day before",
+                          "${widget.task?.alert} minutes before",
                           style: TextStyle(
                             color: Theme.of(context)
                                 .textTheme
@@ -313,7 +237,7 @@ class _DisplayTaskState extends State<DisplayTask> {
                           textAlign: TextAlign.right,
                         ),
                         Text(
-                          "Busy",
+                          widget.task?.showAs ?? "",
                           style: TextStyle(
                             color: Theme.of(context)
                                 .textTheme
@@ -330,38 +254,25 @@ class _DisplayTaskState extends State<DisplayTask> {
                       height: 40,
                     ),
                     Container(
-                      padding: EdgeInsets.only(left: 16),
+                      padding: EdgeInsets.all(16),
                       height: 230,
+                      width: 300,
                       decoration: BoxDecoration(
                           border: Border.all(color: Colors.white, width: 1.0),
                           borderRadius: BorderRadius.circular(12)),
-                      child: TextField(
+                      child: Text(
+                        widget.task?.note ?? "",
                         style: TextStyle(
-                          color: Theme.of(context)
-                              .textTheme
-                              .headline1
-                              ?.color
-                              ?.withOpacity(1),
-                        ),
-                        cursorColor: Theme.of(context)
-                            .textTheme
-                            .headline1
-                            ?.color
-                            ?.withOpacity(1),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: "Notes..",
-                            hintStyle: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            )),
+                            color: Theme.of(context)
+                                .textTheme
+                                .headline1
+                                ?.color
+                                ?.withOpacity(1),
+                            fontSize: 12),
                       ),
                     ),
                   ],
                 )),
-            // SizedBox(
-            //   height: 5,
-            // ),
             Padding(
               padding: EdgeInsets.only(
                 left: 32,
@@ -375,7 +286,11 @@ class _DisplayTaskState extends State<DisplayTask> {
                   borderRadius: BorderRadius.circular(7),
                 ),
                 color: Theme.of(context).iconTheme.color?.withOpacity(0.54),
-                onPressed: () {},
+                onPressed: () {
+                  _taskController.delete(widget.task!);
+                  Get.back();
+                  _taskController.getTasks();
+                },
                 child: Text(
                   'DELETE THIS ACTIVITY',
                   style: TextStyle(
@@ -389,5 +304,22 @@ class _DisplayTaskState extends State<DisplayTask> {
         ),
       ),
     );
+  }
+
+  _getBGClr(int no) {
+    switch (no) {
+      case 0:
+        return Color(widget.task?.codeSee ?? 0);
+      case 1:
+        return kPicker1;
+      case 2:
+        return kPicker2;
+      case 3:
+        return kPicker3;
+      case 4:
+        return kPicker4;
+      default:
+        return kPrimaryColor;
+    }
   }
 }
